@@ -1,18 +1,25 @@
 {
   "name": "makingmobile-plugin-log",
-  "version": "0.0.1",
+  "version": "0.0.1-beta.1",
   "description": "MakingMobile framework log plugin",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified! Configure in package.json\" && exit 1"
   },
-  "repository": "",
+  "dependencies": {
+    "mkdirp": "*"  
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/makingmobile/makingmobile-plugin-log.git"
+  },
   "keywords": [
-    "Node.js",
-    "Eclipse",
-    "Nodeclipse"
+    "makingmobile",
+    "log"
   ],
-  "author": "",
-  "license": "BSD",
-  "readmeFilename": "README.md"
+  "author": "MakingMobile Development Team",
+  "license": "GPLv3",
+  "bugs": {
+    "url": "https://github.com/makingmobile/makingmobile-plugin-log/issues"
+  }
 }
