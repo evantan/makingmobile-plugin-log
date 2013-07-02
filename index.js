@@ -4,7 +4,8 @@ var CMDS = ['  last n \t show last n log entries in database'],
     LEVEL_DEBUG = 20,
     LEVEL_WARN = 30,
     LEVEL_ERROR = 40,
-    format = require('util').format;
+    format = require('util').format,
+    path = require('path');
 
 function find_plugin_config(config) {
     for (var i = 0; i < config.plugins.length; i++) {
@@ -89,10 +90,13 @@ function build (config, rootdir, next) {
     if(pconfig.db) {
         MongoClient.connect(pconfig.db, function(err, db) {
             if (err) {
-                console.error('Cannot open db:' + pconfig.db);
-                db.close();
-                return next('log');
+                console.error(err);
+                console.error('Cannot open:' + pconfig.db);
+                //Process will halt when MongoClient.connect has error
+                process.exit(1);
+                //next('log');
             } else {
+                db.close();
                 next();
             }
         });

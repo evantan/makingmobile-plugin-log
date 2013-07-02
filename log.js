@@ -16,7 +16,6 @@ function MMP_log(mm, plugin_config){
     var self = this;
     this.config = plugin_config;
     this.mm = mm;
-    this._ajax = mm.Ajax();
     this._buff = [];
     this._sendingData = '';
     if (this.mm.hasPhoneGap) {
