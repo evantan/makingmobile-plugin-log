@@ -79,9 +79,9 @@ MMP_log.prototype._add = function (level, msg, time, zone) {
 
 MMP_log.prototype._send = function () {
     var self = this,
-        url = this.mm.slash_url(this.mm.config.url) + 
-              this.mm.slash_url(this.mm.config.urlprefix) +
-              this.mm.slash_url(this.config.urlspace);
+        url = this.mm.config.url.replace(/\/$/, '') + 
+              this.mm.util.slash_url(this.mm.config.urlprefix) +
+              this.mm.util.slash_url(this.config.urlspace);
     
     if (this._buff.length === 0) return;
     
@@ -90,7 +90,7 @@ MMP_log.prototype._send = function () {
     if (this._ajax.isCompleted()) {
         this._sendingData = JSON.stringify(this._buff);
         this._buff = [];
-        this._ajax.send(url, this._sendingData, function() {
+        this._ajax.send(url, this._sendingData, 1000, function() {
             setTimeout(function() {
                 self._send();
             }, 10);

@@ -24,7 +24,7 @@ function MMP_log(mm, plugin_config){
         }, false);
     }
     mm.register(this, PROP_NAME);
-    mm.app.post(this.mm.slash_url(this.mm.config.urlprefix) + this.mm.slash_url(this.config.urlspace), function(req, res) {
+    mm.app.post(this.mm.util.slash_url(this.mm.config.urlprefix) + this.mm.util.slash_url(this.config.urlspace), function(req, res) {
         self._remoteLog(req, res);
     });
 }
@@ -47,6 +47,7 @@ MMP_log.prototype.error = MMP_log.prototype.err = function (msg) {
 
 MMP_log.prototype._add = function (level, msg, time, zone) {
     var levelstr = 'info: ',
+        data = '-----> ',
         obj = {};
     
     if (time === undefined) {
@@ -64,8 +65,12 @@ MMP_log.prototype._add = function (level, msg, time, zone) {
     } else if (level === LEVEL_ERROR) {
         levelstr = 'error: ';
     }
+    data += levelstr;
+    data += format('%s %s \n', time, zone);
+    data += JSON.stringify(msg) + '\n';
+
     //Output to local console first
-    console.log(levelstr + msg);
+    console.log(data);
     
     obj = {
         time: time,
@@ -83,22 +88,23 @@ MMP_log.prototype._add = function (level, msg, time, zone) {
 
 MMP_log.prototype._writetofile = function (obj) {
     var levelstr = 'info: ',
-        data = '-----> + ';
+        data = '-----> ';
     
-    if (level === LEVEL_DEBUG) {
+    if (obj.level === LEVEL_DEBUG) {
         levelstr = 'debug: ';
-    } else if (level === LEVEL_WARN) {
+    } else if (obj.level === LEVEL_WARN) {
         levelstr = 'warn: ';
-    } else if (level === LEVEL_ERROR) {
+    } else if (obj.level === LEVEL_ERROR) {
         levelstr = 'error: ';
     }
     data += levelstr;
     data += format('%s %s \n', obj.time, obj.zone);
     data += JSON.stringify(obj.msg) + '\n';
-    data += '<-----';
-    fs.appendFile(path.resolve(this.mm._rootdir, this.config.file), data, function (err) {
-        if (err) throw err;
-        console.log('Error when log to file: ' + err);
+
+    fs.appendFile(path.resolve(this.mm._rootdir, this.config.file), data, {encoding: 'utf8'}, function (err) {
+        if (err) {
+            console.log('Error when log to file: ' + err);
+        }
     });
 };
 
@@ -112,8 +118,13 @@ MMP_log.prototype._writetodb = function (obj) {
             level: obj.level,
             zone: obj.zone,
             msg: obj.msg
+        }, function(err, logs) {
+            if (err) {
+                console.error('Error when log to db:' + err);
+            }
+            db.close();
         });
-        db.close();
+        
     });
 };
 
@@ -134,6 +145,7 @@ MMP_log.prototype._remoteLog = function (req, res) {
         for (i = 0; i < logarr.length; i++) {
             self._add(logarr[i].level, logarr[i].msg, logarr[i].time, logarr[i].zone);
         }
+        res.send(200);
     });
 };
 
