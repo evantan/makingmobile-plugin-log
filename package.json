@@ -1,6 +1,6 @@
 {
   "name": "makingmobile-plugin-log",
-  "version": "0.0.1-beta.3",
+  "version": "0.0.1-beta.4",
   "description": "MakingMobile framework log plugin",
   "main": "index.js",
   "scripts": {

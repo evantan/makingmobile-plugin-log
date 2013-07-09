@@ -19,7 +19,7 @@ function find_plugin_config(config) {
 function showLast (n, db, collection) {
     collection.find({}, {
         'limit': n,
-        'sort': time
+        'sort': 'time'
     }).toArray(function(err, logs) {
         var levelstr, i, data;
         
@@ -42,7 +42,7 @@ function showLast (n, db, collection) {
             data += levelstr;
             data += format('%s %s \n', logs[i].time, logs[i].zone);
             data += JSON.stringify(logs[i].msg) + '\n';
-            data += '<-----';
+            //data += '<-----';
             console.log(data);
         }
         db.close();

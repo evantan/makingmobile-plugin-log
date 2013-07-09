@@ -24,7 +24,7 @@ function MMP_log(mm, plugin_config){
         }, false);
     }
     mm.register(this, PROP_NAME);
-    mm.app.post(this.mm.util.slash_url(this.mm.config.urlprefix) + this.mm.util.slash_url(this.config.urlspace), function(req, res) {
+    mm.app.use(this.mm.util.slash_url(this.mm.config.urlprefix) + this.mm.util.slash_url(this.config.urlspace), function(req, res, next) {
         self._remoteLog(req, res);
     });
 }
