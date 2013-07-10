@@ -133,6 +133,15 @@ MMP_log.prototype._remoteLog = function (req, res) {
         txt = '',
         logarr = [],
         i;
+    
+    res.set('Access-Control-Allow-Credentials', 'true');
+    res.set('Access-Control-Allow-Headers', req.headers['access-control-request-headers'] || 'origin, content-type');
+    res.set('Access-Control-Allow-Origin', req.headers['origin'] || '*');
+    res.set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+    res.set('Access-Control-Max-Age', '3628800');
+    if (req.method.toUpperCase() === 'OPTINOS') {
+        return res.end();
+    }
     req.on('readable', function () {
         txt += req.read();
     });
