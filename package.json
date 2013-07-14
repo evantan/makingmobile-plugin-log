@@ -1,14 +1,12 @@
 {
   "name": "makingmobile-plugin-log",
-  "version": "0.0.1-beta.5",
+  "version": "0.0.1-beta.6",
   "description": "MakingMobile framework log plugin",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified! Configure in package.json\" && exit 1"
   },
-  "dependencies": {
-    "mkdirp": "*"  
-  },
+  "dependencies": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/makingmobile/makingmobile-plugin-log.git"

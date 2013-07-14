@@ -76,17 +76,8 @@ function docmd (argv, config, rootdir) {
 
 function build (config, rootdir, next) {
     var pconfig = find_plugin_config(config),
-        mkdirp = require('mkdirp'),
         MongoClient = require('mongodb').MongoClient;
     
-    try {
-        if (pconfig.file) {
-            mkdirp.mkdirp.sync(path.resolve(rootdir, pconfig.file, '..'));
-        }
-    } catch (err) {
-        console.error('Error when create log dir: ' + err);
-        return next('log');
-    }
     if(pconfig.db) {
         MongoClient.connect(pconfig.db, function(err, db) {
             if (err) {
@@ -100,12 +91,18 @@ function build (config, rootdir, next) {
                 next();
             }
         });
+    } else {
+        next();
     }
 }
 
 function init (mm) {
     var Log = require('./log'),
         pconfig = find_plugin_config(mm.config);
+    
+    if(pconfig.file && !fs.existsSync(path.resolve(rootdir, pconfig.file, '..'))){
+        mm.util.fs.mkdirr(path.resolve(rootdir, pconfig.file, '..'));
+    }
     new Log(mm, pconfig);
 }
 

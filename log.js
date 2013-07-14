@@ -18,11 +18,6 @@ function MMP_log(mm, plugin_config){
     this.mm = mm;
     this._buff = [];
     this._sendingData = '';
-    if (this.mm.hasPhoneGap) {
-        document.addEventListener("online", function() {
-            self._send();
-        }, false);
-    }
     mm.register(this, PROP_NAME);
     mm.app.use(this.mm.util.slash_url(this.mm.config.urlprefix) + this.mm.util.slash_url(this.config.urlspace), function(req, res, next) {
         self._remoteLog(req, res);
