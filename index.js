@@ -5,7 +5,8 @@ var CMDS = ['  last n \t show last n log entries in database'],
     LEVEL_WARN = 30,
     LEVEL_ERROR = 40,
     format = require('util').format,
-    path = require('path');
+    path = require('path'),
+    fs = require('fs');
 
 function find_plugin_config(config) {
     for (var i = 0; i < config.plugins.length; i++) {
@@ -100,7 +101,7 @@ function init (mm) {
     var Log = require('./log'),
         pconfig = find_plugin_config(mm.config);
     
-    if(pconfig.file && !fs.existsSync(path.resolve(rootdir, pconfig.file, '..'))){
+    if(pconfig.file && !fs.existsSync(path.resolve(mm._rootdir, pconfig.file, '..'))){
         mm.util.fs.mkdirr(path.resolve(rootdir, pconfig.file, '..'));
     }
     new Log(mm, pconfig);
