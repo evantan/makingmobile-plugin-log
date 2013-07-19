@@ -17,6 +17,12 @@ function find_plugin_config(config) {
     return null;
 }
 
+function prettyPrint (d) {
+    d = new Date(d);
+    return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() +
+        ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + '.' + d.getMilliseconds();
+}
+
 function showLast (n, db, collection) {
     collection.find({}, {
         'limit': n,
@@ -41,7 +47,7 @@ function showLast (n, db, collection) {
                 levelstr = 'error: ';
             }
             data += levelstr;
-            data += format('%s %s \n', logs[i].time, logs[i].zone);
+            data += format('%s %s \n', prettyPrint(logs[i].time), logs[i].zone);
             data += JSON.stringify(logs[i].msg) + '\n';
             //data += '<-----';
             console.log(data);

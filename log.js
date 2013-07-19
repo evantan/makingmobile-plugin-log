@@ -9,6 +9,13 @@ var LEVEL_INFO = 10,
     MongoClient = require('mongodb').MongoClient,
     format = require('util').format;
 
+function prettyPrint (d) {
+    d = new Date(d);
+    return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() +
+        ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + '.' + d.getMilliseconds();
+}
+
+
 /*
  * nodeSide log-plugin class
  */
@@ -61,7 +68,7 @@ MMP_log.prototype._add = function (level, msg, time, zone) {
         levelstr = 'error: ';
     }
     data += levelstr;
-    data += format('%s %s \n', time, zone);
+    data += format('%s %s \n', prettyPrint(time), zone);
     data += JSON.stringify(msg) + '\n';
 
     //Output to local console first
