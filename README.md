@@ -1,4 +1,4 @@
 makingmobile-plugin-log
 =======================
 
-Log plugin
+Log plugin 
