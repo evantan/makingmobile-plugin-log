@@ -15,7 +15,7 @@ function MMP_log(mm, plugin_config){
     this._ajax = mm.Ajax();
     this._buff = [];
     this._sendingData = '';
-    if (this.mm.hasPhoneGap) {
+    if (this.mm.hasCordova) {
         document.addEventListener("online", function() {
             self._send();
         }, false);
@@ -85,7 +85,7 @@ MMP_log.prototype._send = function () {
     
     if (this._buff.length === 0) return;
     
-    if (this.mm.hasPhoneGap && navigator.connection.type === Connection.NONE) return;
+    if (this.mm.hasCordova && navigator.connection.type === Connection.NONE) return;
     
     if (this._ajax.isCompleted()) {
         this._sendingData = JSON.stringify(this._buff);
